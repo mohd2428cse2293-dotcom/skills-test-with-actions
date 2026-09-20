@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# 1. Dataset generation (20 records)
 data = {
     'Timestamp': [
         '10:00', '10:01', '10:02', '10:03', '10:04', '10:05', '10:06', '10:07', '10:08', '10:09',
@@ -14,15 +13,12 @@ data = {
 
 df = pd.DataFrame(data)
 
-# 2. Statistics calculation
 print("=== Metric Statistics ===")
 print(df[['CPU', 'Memory', 'Response_Time']].describe())
 print("\n")
 
-# 3. Anomaly Detection (CPU > 80 threshold)
 anomalies = df[df['CPU'] > 80]
 
-# 4. Formatted Console Output
 print(f"Total records: {len(df)}")
 print(f"Anomalies detected: {len(anomalies)}\n")
 print(f"{'Timestamp':<15} {'CPU':<10} {'Status'}")
@@ -30,14 +26,10 @@ print(f"{'Timestamp':<15} {'CPU':<10} {'Status'}")
 for _, row in anomalies.iterrows():
     print(f"{row['Timestamp']:<15} {row['CPU']}%{'':<6} ANOMALY")
 
-# 5. Visualization
 plt.figure(figsize=(10, 5))
 plt.plot(df['Timestamp'], df['CPU'], marker='o', label='CPU Usage (%)', color='blue')
 plt.axhline(y=80, color='red', linestyle='--', label='Anomaly Threshold (80%)')
-
-# Plot anomaly markers
 plt.scatter(anomalies['Timestamp'], anomalies['CPU'], color='red', s=100, zorder=5, label='Anomaly')
-
 plt.title('Server CPU Usage & Anomaly Detection')
 plt.xlabel('Timestamp')
 plt.ylabel('CPU Usage (%)')
